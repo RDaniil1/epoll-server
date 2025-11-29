@@ -15,7 +15,12 @@ $(BUILD_DIR)/%.o: %.cpp
 	@mkdir -p $(dir $@)
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
+install: $(BUILD_DIR)/$(TARGET)
+        sudo install -m 755 $(BUILD_DIR)/$(TARGET) /usr/local/bin/
+        sudo install -m 644 $(TARGET).service /etc/systemd/system/
+        sudo systemctl daemon-reload
+
 clean:
 	rm -r $(BUILD_DIR)
 
-.PHONY: all clean
+.PHONY: all install clean
